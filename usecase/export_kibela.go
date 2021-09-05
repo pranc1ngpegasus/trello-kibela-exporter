@@ -70,7 +70,7 @@ func (u *exportKibela) Do(input ExportKibelaInput) (*ExportKibelaOutput, error) 
 	md, err := kibela.NewMD(
 		"",
 		strings.NewReader(input.Content),
-		"",
+		input.Title,
 		input.CoEdit,
 		"",
 	)

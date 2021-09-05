@@ -14,8 +14,10 @@ type (
 		}
 
 		Kibela struct {
-			Team  string `envconfig:"KIBELA_TEAM" default:""`
-			Token string `envconfig:"KIBELA_TOKEN" default:""`
+			Team   string `envconfig:"KIBELA_TEAM" default:""`
+			Token  string `envconfig:"KIBELA_TOKEN" default:""`
+			CoEdit bool   `envconfig:"KIBELA_CO_EDIT" default:"true"`
+			Group  string `envconfig:"KIBELA_GROUP" default:""`
 		}
 	}
 )

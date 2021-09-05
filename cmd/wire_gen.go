@@ -7,15 +7,20 @@ package main
 
 import (
 	"github.com/Pranc1ngPegasus/trello-kibela-exporter/adapter/configuration"
+	"github.com/Pranc1ngPegasus/trello-kibela-exporter/adapter/handler"
 	"github.com/Pranc1ngPegasus/trello-kibela-exporter/adapter/logger"
 	"github.com/Pranc1ngPegasus/trello-kibela-exporter/usecase"
 )
 
 // Injectors from inject.go:
 
-func initialize() usecase.ExportKibela {
+func initialize() handler.TrelloToKibela {
 	config := configuration.Get()
 	logrusLogger := logger.Logger()
+	importTrello := usecase.NewImportTrello(config, logrusLogger)
+	getBoardMembers := usecase.NewGetBoardMembers(config, logrusLogger)
+	constructMarkdown := usecase.NewConstructMarkdown(logrusLogger)
 	exportKibela := usecase.NewExportKibela(config, logrusLogger)
-	return exportKibela
+	trelloToKibela := handler.NewTrelloToKibela(config, logrusLogger, importTrello, getBoardMembers, constructMarkdown, exportKibela)
+	return trelloToKibela
 }
