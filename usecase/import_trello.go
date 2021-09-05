@@ -26,18 +26,27 @@ func NewImportTrello(
 	config configuration.Config,
 	logger *logrus.Logger,
 ) ImportTrello {
+	return &importTrello{
+		config: config,
+		logger: logger,
+		trelloClient: newTrelloClient(
+			config,
+			logger,
+		),
+	}
+}
+
+func newTrelloClient(
+	config configuration.Config,
+	logger *logrus.Logger,
+) *trello.Client {
 	trelloClient := trello.NewClient(
 		config.Trello.APIKey,
 		config.Trello.Token,
 	)
-
 	trelloClient.Logger = logger
 
-	return &importTrello{
-		config:       config,
-		logger:       logger,
-		trelloClient: trelloClient,
-	}
+	return trelloClient
 }
 
 type (

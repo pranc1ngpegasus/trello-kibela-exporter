@@ -13,9 +13,9 @@ import (
 
 // Injectors from inject.go:
 
-func initialize() usecase.ImportTrello {
+func initialize() usecase.ExportKibela {
 	config := configuration.Get()
 	logrusLogger := logger.Logger()
-	importTrello := usecase.NewImportTrello(config, logrusLogger)
-	return importTrello
+	exportKibela := usecase.NewExportKibela(config, logrusLogger)
+	return exportKibela
 }

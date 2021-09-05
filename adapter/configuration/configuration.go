@@ -12,6 +12,11 @@ type (
 			APIKey string `envconfig:"TRELLO_API_KEY" default:""`
 			Token  string `envconfig:"TRELLO_TOKEN" default:""`
 		}
+
+		Kibela struct {
+			Team  string `envconfig:"KIBELA_TEAM" default:""`
+			Token string `envconfig:"KIBELA_TOKEN" default:""`
+		}
 	}
 )
 

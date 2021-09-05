@@ -10,11 +10,11 @@ import (
 	"github.com/google/wire"
 )
 
-func initialize() usecase.ImportTrello {
+func initialize() usecase.ExportKibela {
 	wire.Build(
 		configuration.Get,
 		logger.Logger,
-		usecase.NewImportTrello,
+		usecase.NewExportKibela,
 	)
 
 	return nil
