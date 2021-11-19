@@ -20,6 +20,7 @@ type (
 		getBoardMembersUsecase   usecase.GetBoardMembers
 		constructMarkdownUsecase usecase.ConstructMarkdown
 		exportKibela             usecase.ExportKibela
+		archiveTrello            usecase.ArchiveTrello
 	}
 )
 
@@ -30,6 +31,7 @@ func NewTrelloToKibela(
 	getBoardMembersUsecase usecase.GetBoardMembers,
 	constructMarkdownUsecase usecase.ConstructMarkdown,
 	exportKibela usecase.ExportKibela,
+	archiveTrello usecase.ArchiveTrello,
 ) TrelloToKibela {
 	return &trelloToKibela{
 		config:                   config,
@@ -38,13 +40,15 @@ func NewTrelloToKibela(
 		getBoardMembersUsecase:   getBoardMembersUsecase,
 		constructMarkdownUsecase: constructMarkdownUsecase,
 		exportKibela:             exportKibela,
+		archiveTrello:            archiveTrello,
 	}
 }
 
 type (
 	TrelloToKibelaInput struct {
-		BoardID string
-		Folder  string
+		BoardID    string
+		IgnoreList []string
+		Folder     string
 	}
 
 	TrelloToKibelaOutput struct {
@@ -100,6 +104,17 @@ func (h *trelloToKibela) Do(input TrelloToKibelaInput) (*TrelloToKibelaOutput, e
 		},
 	)
 	if err != nil {
+		return nil, err
+	}
+
+	if err := h.archiveTrello.Do(
+		usecase.ArchiveTrelloInput{
+			BoardID: input.BoardID,
+			IgnoreLists: []string{
+				"進め方",
+			},
+		},
+	); err != nil {
 		return nil, err
 	}
 

@@ -21,6 +21,7 @@ func initialize() handler.TrelloToKibela {
 	getBoardMembers := usecase.NewGetBoardMembers(config, logrusLogger)
 	constructMarkdown := usecase.NewConstructMarkdown(logrusLogger)
 	exportKibela := usecase.NewExportKibela(config, logrusLogger)
-	trelloToKibela := handler.NewTrelloToKibela(config, logrusLogger, importTrello, getBoardMembers, constructMarkdown, exportKibela)
+	archiveTrello := usecase.NewArchiveTrello(config, logrusLogger)
+	trelloToKibela := handler.NewTrelloToKibela(config, logrusLogger, importTrello, getBoardMembers, constructMarkdown, exportKibela, archiveTrello)
 	return trelloToKibela
 }

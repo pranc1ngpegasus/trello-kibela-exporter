@@ -20,6 +20,7 @@ func initialize() handler.TrelloToKibela {
 		usecase.NewGetBoardMembers,
 		usecase.NewConstructMarkdown,
 		usecase.NewExportKibela,
+		usecase.NewArchiveTrello,
 	)
 
 	return nil
