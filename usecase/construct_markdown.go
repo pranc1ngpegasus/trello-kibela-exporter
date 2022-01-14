@@ -75,8 +75,6 @@ func (u *constructMarkdown) constructList(list *trello.List, members map[string]
 	// section title
 	sectionRows = append(sectionRows, fmt.Sprintf("## %s", list.Name))
 
-	u.logger.Infof("%+v", list)
-
 	for _, card := range list.Cards {
 		if card == nil {
 			continue

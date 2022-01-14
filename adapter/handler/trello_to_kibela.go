@@ -65,8 +65,6 @@ func (h *trelloToKibela) Do() error {
 		return err
 	}
 
-	h.logger.Infof("%+v", *trelloBoard)
-
 	boardMembers, err := h.getBoardMembersUsecase.Do(
 		usecase.GetBoardMembersInput{
 			BoardID: h.config.Trello.BoardID,
@@ -87,8 +85,6 @@ func (h *trelloToKibela) Do() error {
 		h.logger.Error(err)
 		return err
 	}
-
-	h.logger.Infof("%+v", markdown)
 
 	if err := h.exportKibela.Do(
 		usecase.ExportKibelaInput{
