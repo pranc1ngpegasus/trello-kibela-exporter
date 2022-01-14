@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/Pranc1ngPegasus/trello-kibela-exporter/adapter/configuration"
-	"github.com/Pranc1ngPegasus/trello-kibela-exporter/adapter/handler"
 )
 
 func init() {
@@ -13,12 +12,7 @@ func init() {
 
 func main() {
 	cmd := initialize()
-	kibela, err := cmd.Do(
-		handler.TrelloToKibelaInput{
-			BoardID: "xxx",
-			Folder:  "xxx",
-		},
-	)
+	kibela, err := cmd.Do()
 	if err != nil {
 		panic(err)
 	}

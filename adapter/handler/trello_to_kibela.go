@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"strings"
+
 	"github.com/Pranc1ngPegasus/trello-kibela-exporter/adapter/configuration"
 	"github.com/Pranc1ngPegasus/trello-kibela-exporter/usecase"
 	"github.com/sirupsen/logrus"
@@ -10,7 +12,7 @@ var _ TrelloToKibela = (*trelloToKibela)(nil)
 
 type (
 	TrelloToKibela interface {
-		Do(input TrelloToKibelaInput) (*TrelloToKibelaOutput, error)
+		Do() (*TrelloToKibelaOutput, error)
 	}
 
 	trelloToKibela struct {
@@ -56,10 +58,10 @@ type (
 	}
 )
 
-func (h *trelloToKibela) Do(input TrelloToKibelaInput) (*TrelloToKibelaOutput, error) {
+func (h *trelloToKibela) Do() (*TrelloToKibelaOutput, error) {
 	trelloBoard, err := h.importTrelloUsecase.Do(
 		usecase.ImportTrelloInput{
-			BoardID: input.BoardID,
+			BoardID: h.config.Trello.BoardID,
 		},
 	)
 	if err != nil {
@@ -71,7 +73,7 @@ func (h *trelloToKibela) Do(input TrelloToKibelaInput) (*TrelloToKibelaOutput, e
 
 	boardMembers, err := h.getBoardMembersUsecase.Do(
 		usecase.GetBoardMembersInput{
-			BoardID: input.BoardID,
+			BoardID: h.config.Trello.BoardID,
 		},
 	)
 	if err != nil {
@@ -97,7 +99,7 @@ func (h *trelloToKibela) Do(input TrelloToKibelaInput) (*TrelloToKibelaOutput, e
 			Title:   markdown.Title,
 			Content: markdown.Content,
 			CoEdit:  h.config.Kibela.CoEdit,
-			Folder:  input.Folder,
+			Folder:  h.config.Kibela.Folder,
 			Groups: []string{
 				h.config.Kibela.Group,
 			},
@@ -109,10 +111,8 @@ func (h *trelloToKibela) Do(input TrelloToKibelaInput) (*TrelloToKibelaOutput, e
 
 	if err := h.archiveTrello.Do(
 		usecase.ArchiveTrelloInput{
-			BoardID: input.BoardID,
-			IgnoreLists: []string{
-				"進め方",
-			},
+			BoardID:     h.config.Trello.BoardID,
+			IgnoreLists: strings.Split(h.config.Trello.IgnoreLists, ","),
 		},
 	); err != nil {
 		return nil, err
