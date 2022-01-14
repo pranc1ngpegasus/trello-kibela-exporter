@@ -14,7 +14,7 @@ var _ ExportKibela = (*exportKibela)(nil)
 
 type (
 	ExportKibela interface {
-		Do(input ExportKibelaInput) (*ExportKibelaOutput, error)
+		Do(input ExportKibelaInput) error
 	}
 
 	exportKibela struct {
@@ -60,13 +60,9 @@ type (
 		Folder  string
 		Groups  []string
 	}
-
-	ExportKibelaOutput struct {
-		NoteID string
-	}
 )
 
-func (u *exportKibela) Do(input ExportKibelaInput) (*ExportKibelaOutput, error) {
+func (u *exportKibela) Do(input ExportKibelaInput) error {
 	md, err := kibela.NewMD(
 		"",
 		strings.NewReader(input.Content),
@@ -76,7 +72,7 @@ func (u *exportKibela) Do(input ExportKibelaInput) (*ExportKibelaOutput, error) 
 	)
 	if err != nil {
 		u.logger.Error(err)
-		return nil, err
+		return err
 	}
 
 	if input.Content != "" {
@@ -101,10 +97,8 @@ func (u *exportKibela) Do(input ExportKibelaInput) (*ExportKibelaOutput, error) 
 		false,
 	); err != nil {
 		u.logger.Error(err)
-		return nil, err
+		return err
 	}
 
-	return &ExportKibelaOutput{
-		NoteID: string(md.ID),
-	}, nil
+	return nil
 }

@@ -12,7 +12,7 @@ var _ TrelloToKibela = (*trelloToKibela)(nil)
 
 type (
 	TrelloToKibela interface {
-		Do() (*TrelloToKibelaOutput, error)
+		Do() error
 	}
 
 	trelloToKibela struct {
@@ -52,13 +52,9 @@ type (
 		IgnoreList []string
 		Folder     string
 	}
-
-	TrelloToKibelaOutput struct {
-		NoteID string
-	}
 )
 
-func (h *trelloToKibela) Do() (*TrelloToKibelaOutput, error) {
+func (h *trelloToKibela) Do() error {
 	trelloBoard, err := h.importTrelloUsecase.Do(
 		usecase.ImportTrelloInput{
 			BoardID: h.config.Trello.BoardID,
@@ -66,7 +62,7 @@ func (h *trelloToKibela) Do() (*TrelloToKibelaOutput, error) {
 	)
 	if err != nil {
 		h.logger.Error(err)
-		return nil, err
+		return err
 	}
 
 	h.logger.Infof("%+v", *trelloBoard)
@@ -78,7 +74,7 @@ func (h *trelloToKibela) Do() (*TrelloToKibelaOutput, error) {
 	)
 	if err != nil {
 		h.logger.Error(err)
-		return nil, err
+		return err
 	}
 
 	markdown, err := h.constructMarkdownUsecase.Do(
@@ -89,12 +85,12 @@ func (h *trelloToKibela) Do() (*TrelloToKibelaOutput, error) {
 	)
 	if err != nil {
 		h.logger.Error(err)
-		return nil, err
+		return err
 	}
 
 	h.logger.Infof("%+v", markdown)
 
-	kibela, err := h.exportKibela.Do(
+	if err := h.exportKibela.Do(
 		usecase.ExportKibelaInput{
 			Title:   markdown.Title,
 			Content: markdown.Content,
@@ -104,9 +100,8 @@ func (h *trelloToKibela) Do() (*TrelloToKibelaOutput, error) {
 				h.config.Kibela.Group,
 			},
 		},
-	)
-	if err != nil {
-		return nil, err
+	); err != nil {
+		return err
 	}
 
 	if err := h.archiveTrello.Do(
@@ -115,12 +110,8 @@ func (h *trelloToKibela) Do() (*TrelloToKibelaOutput, error) {
 			IgnoreLists: strings.Split(h.config.Trello.IgnoreLists, ","),
 		},
 	); err != nil {
-		return nil, err
+		return err
 	}
 
-	h.logger.Infof("%+v", kibela)
-
-	return &TrelloToKibelaOutput{
-		NoteID: kibela.NoteID,
-	}, nil
+	return nil
 }

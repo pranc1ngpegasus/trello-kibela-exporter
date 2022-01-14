@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/Pranc1ngPegasus/trello-kibela-exporter/adapter/configuration"
 )
 
@@ -12,10 +10,7 @@ func init() {
 
 func main() {
 	cmd := initialize()
-	kibela, err := cmd.Do()
-	if err != nil {
+	if err := cmd.Do(); err != nil {
 		panic(err)
 	}
-
-	fmt.Println(kibela.NoteID)
 }
