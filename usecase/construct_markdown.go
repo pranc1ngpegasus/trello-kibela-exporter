@@ -94,16 +94,17 @@ func (u *constructMarkdown) constructList(list *trello.List, members map[string]
 
 func (u *constructMarkdown) constructCard(card *trello.Card, members map[string]BoardMember) (string, error) {
 	var sectionRows []string
+	var sectionRow string
 
-	// section title
-	sectionRows = append(sectionRows, fmt.Sprintf(
-		"### %s by %s",
-		card.Name,
-		u.memberNameByID(
+	sectionRow = sectionRow + fmt.Sprintf("### %s", card.Name)
+	if len(card.IDMembers) > 0 {
+		sectionRow = sectionRow + fmt.Sprintf(" by %s", u.memberNameByID(
 			card.IDMembers[0],
 			members,
-		),
-	))
+		))
+	}
+	// section title
+	sectionRows = append(sectionRows, sectionRow)
 
 	// section content
 	sectionRows = append(sectionRows, fmt.Sprintf("%s", card.Desc))
