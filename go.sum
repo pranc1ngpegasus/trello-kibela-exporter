@@ -2,6 +2,8 @@ github.com/Songmu/kibelasync v0.1.0 h1:CFIkziV/f9mrr4ZfkzctuxCgvD+IEYoqccdJnuDy7
 github.com/Songmu/kibelasync v0.1.0/go.mod h1:QfsaADIodBYaGCIzOEijw6xd1QWtOXIVxvojUfllhak=
 github.com/adlio/trello v1.9.0 h1:b8R1oic2yksok5McAd+kcfsvTq5sX+Fv8rMTSpBBRq8=
 github.com/adlio/trello v1.9.0/go.mod h1:I4Lti4jf2KxjTNgTqs5W3lLuE78QZZdYbbPnQQGwjOo=
+github.com/adlio/trello v1.10.0 h1:ia/rzoBwJJKr4IqnMlrU6n09CVqeyaahSkEVcV5/gPc=
+github.com/adlio/trello v1.10.0/go.mod h1:I4Lti4jf2KxjTNgTqs5W3lLuE78QZZdYbbPnQQGwjOo=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/google/go-cmp v0.2.0/go.mod h1:oXzfMopK8JAjlY9xF4vHSVASa0yLyX7SntLO5aqRK0M=
